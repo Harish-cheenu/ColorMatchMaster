@@ -1,4 +1,3 @@
-// src/components/Game.js
 import React, { useEffect, useState } from "react";
 import Audios from "../audio";
 import "./Game.css";
@@ -10,6 +9,9 @@ const ColorMatchMaster = () => {
   const [bestScore, setBestScore] = useState(0);
   const [sequence, setSequence] = useState([]);
   const [userSequence, setUserSequence] = useState([]);
+
+  const [gameOver, setGameOver] = useState(false);
+  const [sequencePlaying, setSequencePlaying] = useState(false);
 
   const colors_config = [
     "red",
@@ -35,6 +37,7 @@ const ColorMatchMaster = () => {
     if (isPlaying) {
       const seq = generateSequence(colors, level, true);
       setSequence(seq);
+      setSequencePlaying(true);
       handlePlaySequence(seq, 1200);
     }
   }, [isPlaying]);
@@ -53,10 +56,16 @@ const ColorMatchMaster = () => {
         () => {
           const element = document.getElementById(item);
           element.style.opacity = ".4";
+          console.log(item, 'on');
           const audio = new Audio(Audios[item]);
           audio.play();
           setTimeout(() => {
             element.style.opacity = "1";
+          console.log(item, 'offf');
+            if ((arr.length - 1) === index) {
+              setSequencePlaying(false)
+            console.log(item, 'last');
+            }
           }, 250);
         },
         delay + index * 1000,
@@ -75,26 +84,44 @@ const ColorMatchMaster = () => {
   const handleOnBoxClick = (color) => {
     const audio = new Audio(Audios[color]);
     audio.play();
-    setUserSequence((prev) => [...prev, color]);
-    const newArr = [...userSequence, color];
-    if (arraysEqual(newArr, sequence)) {
-      const seq = generateSequence(colors, level + 1, false);
-      const newSeq = [...sequence, ...seq];
-      setSequence(newSeq);
-      setLevel((prevLevel) => prevLevel + 1);
-      handlePlaySequence(newSeq, 1200);
-      setUserSequence([]);
-    } else {
-      if (level > bestScore) {
-        setBestScore(level - 1);
-      }
-      alert(`Game over! Your best score is ${bestScore}.`);
-      setIsPlaying(false);
-      setLevel(1);
-      setSequence([]);
-      setUserSequence([]);
+  
+    const newUserSequence = [...userSequence, color];
+  
+    if (sequence[userSequence.length] !== color) {
+      handleGameOver();
+      return;
     }
+  
+    if (arraysEqual(newUserSequence, sequence)) {
+      handleNextLevel();
+      return;
+    }
+  
+    setUserSequence(newUserSequence);
   };
+  
+  const handleGameOver = () => {
+    if (level > bestScore) {
+      setBestScore(level - 1);
+    }
+    setGameOver(true);
+    setIsPlaying(false);
+    setLevel(1);
+    setSequence([]);
+    setUserSequence([]);
+  };
+  
+  const handleNextLevel = () => {
+    const seq = generateSequence(colors, level + 1, false);
+    const newSeq = [...sequence, ...seq];
+    setSequence(newSeq);
+    setLevel((prevLevel) => prevLevel + 1);
+    setSequencePlaying(true);
+    handlePlaySequence(newSeq, 1200);
+    setUserSequence([]);
+  };
+  
+  
 
   const renderBox = (color, index) => {
     return (
@@ -108,10 +135,18 @@ const ColorMatchMaster = () => {
     );
   };
 
+
+
+  const handleRestart = () => {
+    setGameOver(false);
+    setIsPlaying(false);
+  };
+
   return (
     <div className="game">
+    
       <h1 className="text-4xl font-bold">Color Match Master</h1>
-      {!isPlaying && (
+      {!isPlaying && !gameOver && (
         <>
           <div className="levels">
             <span
@@ -139,22 +174,35 @@ const ColorMatchMaster = () => {
           </div>
         </>
       )}
-      {isPlaying && (
+      {isPlaying && !gameOver && (
         <>
           <div>Level {level}</div>
           <div
             className="boxesStyle"
-            style={{ gridTemplateColumns: `repeat(${gridSize}, 100px)` }}
+            style={{ gridTemplateColumns: `repeat(${gridSize}, 100px)`, pointerEvents: sequencePlaying && 'none' }}
           >
             {colors.map(renderBox)}
           </div>
           <div
             className="playStart btn"
-            onClick={() => handlePlaySequence(sequence, 700)}
+            style={{ pointerEvents: sequencePlaying && 'none' }}
+            onClick={() => {
+              setSequencePlaying(true);
+              handlePlaySequence(sequence, 700);
+            }}
           >
             Replay Sequence
           </div>
         </>
+      )}
+      {gameOver && (
+        <div>
+          <h2>Game Over!</h2>
+          <p>Your best score is {bestScore}.</p>
+          <button onClick={handleRestart} className="btn">
+            Restart
+          </button>
+        </div>
       )}
     </div>
   );

@@ -1,56 +1,76 @@
 :root {
-  --active-btn: bisque;
-  --active-btn-hover: #ddd;
+  --primary-color: #4a90e2;
+  --secondary-color: #7edfe9;
+  --text-color: #333;
+  --background-color: #f0f4f8;
 }
 
-.levels {
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app-container {
+  position: relative;
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
+  height: 100vh;
 }
-.levels .btn {
-  border: 1px solid #ddd;
-  padding: 0.25rem 0.5rem;
+
+.home {
+  position: absolute;
+  top: 35%;
+  left: 5%;
+  width: 80%;
+  padding: 2rem;
+  background-color: #fff;
   border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
-.levels .btn:hover {
-  background-color: var(--active-btn);
-  cursor: pointer;
-  box-shadow: 1px 1px 3px #000000dd;
+.title {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
 }
 
-.btn-active {
-  background-color: var(--active-btn);
-}
-.btn-active:hover {
-  background-color: var(--active-btn-hover);
-}
-
-.boxesStyle {
-  width: 50%;
-  height: 50%;
-  display: grid;
-  justify-content: center;
+.description {
+  font-size: 1.2rem;
+  color: var(--text-color);
+  margin-bottom: 2rem;
 }
 
-.boxStyle {
-  border: 1px solid #ddd;
-  cursor: pointer;
-}
-
-.boxStyle:active {
-  opacity: 0.5 !important;
-}
-
-.btn {
-  cursor: pointer;
-  border: 1px solid #ddd;
-  padding: 0.25rem 0.5rem;
+.sign-in-btn {
+  padding: 0.5rem 1rem;
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
   border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
 }
 
-.btn:hover {
-  background-color: bisque;
-  cursor: pointer;
-  box-shadow: 1px 1px 3px #000000dd;
+.sign-in-btn:hover {
+  background-color: var(--secondary-color);
+}
+
+.game-container {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem;
+  width: 100%;
+}
+
+.rightMenuBar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .5rem;
 }
