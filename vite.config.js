@@ -1,14 +1,24 @@
-// color-match-master/vite.config.js
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import path from 'path';
+// vite.config.js
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import federation from '@originjs/vite-plugin-federation'
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    federation({
+      name: 'colormatchmaster',
+      filename: 'remoteEntry.js',
+      exposes: {
+        './colormatchmaster': './src/app'
+      },
+      shared: ['react', 'react-dom']
+    })
+  ],
   build: {
-    outDir: 'dist',
-    rollupOptions: {
-      input: path.resolve(__dirname, 'index.html'),
-    },
-  },
-});
+    modulePreload: false,
+    target: 'esnext',
+    minify: false,
+    cssCodeSplit: false
+  }
+})
