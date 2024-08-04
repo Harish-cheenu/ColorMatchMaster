@@ -10,7 +10,7 @@ export default defineConfig({
       name: 'colormatchmaster',
       filename: 'remoteEntry.js',
       exposes: {
-        './colormatchmaster': './src/app'
+        './colormatchmaster': './src/App.jsx'
       },
       shared: ['react', 'react-dom']
     })
