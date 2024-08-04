@@ -8,8 +8,7 @@ import pink from "./six.mp3";
 import purple from "./seven.mp3";
 import gray from "./eight.mp3";
 
-// brown purple
-export default {
+const Audios = {
   red,
   green,
   blue,
@@ -19,14 +18,6 @@ export default {
   pink,
   brown,
   gray,
-};
+}
 
-// "red",
-// "green",
-// "blue",
-// "purple",
-// "yellow",
-// "orange",
-// "pink",
-// "brown",
-// "gray",
+export default Audios;

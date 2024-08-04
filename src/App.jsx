@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ColorMatchMaster from "./components/Game";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
+import ColorMatchMaster from "./components/ColorMatchMaster";
 import { CiDark } from "react-icons/ci";
 import "./App.css";
 
@@ -15,7 +14,7 @@ const App = () => {
   };
   return (
     <div className="app-container">
-      <SignedOut>
+      {/* <SignedOut>
         <div className="home">
           <h1 className="title">Welcome to Color Match Master</h1>
           <p className="description">
@@ -23,18 +22,18 @@ const App = () => {
           </p>
           <SignInButton className="sign-in-btn" />
         </div>
-      </SignedOut>
-      <SignedIn>
+      </SignedOut> */}
+      {/* <SignedIn> */}
         <div className="game-container">
           <ColorMatchMaster />
           <div className="rightMenuBar">
-            <UserButton />
+            {/* <UserButton /> */}
             <div onClick={handleThemeToggle} className="btn">
               <CiDark />
             </div>
           </div>
         </div>
-      </SignedIn>
+      {/* </SignedIn> */}
     </div>
   );
 }

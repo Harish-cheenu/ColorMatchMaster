@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Audios from "../audio";
-import "./Game.css";
+import Audios from "../assets/audio";
+import "./ColorMatchMaster.css";
 
 const ColorMatchMaster = () => {
   const [gridSize, setGridSize] = useState(2);
@@ -27,10 +27,13 @@ const ColorMatchMaster = () => {
   const colors = colors_config.slice(0, gridSize * gridSize);
 
   useEffect(() => {
-    colors.forEach((color) => {
-      const audio = new Audio(Audios[color]);
-      audio.load();
-    });
+    const init = () => {
+      colors.forEach((color) => {
+        const audio = new Audio(Audios[color]);
+        audio.load();
+      });
+    }
+    init()
   }, []);
 
   useEffect(() => {
