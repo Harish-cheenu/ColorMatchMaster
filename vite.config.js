@@ -10,7 +10,8 @@ export default defineConfig({
       name: 'colormatchmaster',
       filename: 'colormatchmaster.js',
       exposes: {
-        './colormatchmaster': './src/App.jsx'
+        './colormatchmaster': './src/App.jsx',
+        './assets': './src/assets'
       },
       shared: ['react', 'react-dom']
     })
