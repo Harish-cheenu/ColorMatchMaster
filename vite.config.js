@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     federation({
       name: 'colormatchmaster',
-      filename: 'assets/colormatchmaster.js',
+      filename: 'colormatchmaster.js',
       exposes: {
         './colormatchmaster': './src/App.jsx'
       },
