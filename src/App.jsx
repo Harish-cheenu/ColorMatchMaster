@@ -26,12 +26,11 @@ const App = () => {
       {/* <SignedIn> */}
         <div className="game-container">
           <ColorMatchMaster />
-          <div className="rightMenuBar">
-            {/* <UserButton /> */}
+          {/* <div className="rightMenuBar">
             <div onClick={handleThemeToggle} className="btn">
               <CiDark />
             </div>
-          </div>
+          </div> */}
         </div>
       {/* </SignedIn> */}
     </div>

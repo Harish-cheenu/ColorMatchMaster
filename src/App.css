@@ -1,18 +1,4 @@
-:root {
-    --primary-color: #4a90e2;
-    --secondary-color: #7edfe9;
-    --text-color: #333;
-    --background-color: #f0f4f8;
-  }
-  
-  body {
-    font-family: 'Arial', sans-serif;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+
   
   .app-container {
     position: relative;
