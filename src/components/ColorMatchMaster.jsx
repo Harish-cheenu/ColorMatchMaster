@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Audios from "../assets/audio";
+import Audios from "../../public/assets/audio";
 import "./ColorMatchMaster.css";
 
 const ColorMatchMaster = () => {
