@@ -1,26 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ColorMatchMaster from "./components/ColorMatchMaster";
 
 import "./App.css";
 
-const App = () => {
+const App = ({ isSignedIn = true }) => {
+  const [countdown, setCountdown] = useState(5);
+
+  useEffect(() => {
+    if (!isSignedIn) {
+      const interval = setInterval(() => {
+        setCountdown((prevCountdown) => {
+          if (prevCountdown <= 1) {
+            clearInterval(interval);
+            window.location.href = "https://platformgames.netlify.app";
+          }
+          return prevCountdown - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [isSignedIn]);
+
+
   return (
     <div className="app-container">
-      {/* <SignedOut>
-        <div className="home">
-          <h1 className="title">Welcome to Color Match Master</h1>
-          <p className="description">
-            Test your memory skills by matching colors in the correct sequence. Click the button below to sign in and start playing!
-          </p>
-          <SignInButton className="sign-in-btn" />
-        </div>
-      </SignedOut> */}
-      {/* <SignedIn> */}
+        {isSignedIn ? (
         <div className="game-container">
           <ColorMatchMaster />
-        
         </div>
-      {/* </SignedIn> */}
+      ) : (
+        <div className="login-message">
+          <h2>Please sign in to play the game.</h2>
+          <p>Redirecting to the main page in {countdown} seconds...</p>
+        </div>
+      )}
     </div>
   );
 }
