@@ -3,7 +3,7 @@ import ColorMatchMaster from "./components/ColorMatchMaster";
 
 import "./App.css";
 
-const App = ({ isSignedIn = true }) => {
+const App = ({ isSignedIn = false }) => {
   const [countdown, setCountdown] = useState(5);
 
   useEffect(() => {
