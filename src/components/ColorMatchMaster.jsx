@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Audios from "../../public/assets/audio";
+import AudioFiles from "../assets/audio";
+import { Images } from "../assets/images";
 import "./ColorMatchMaster.css";
 
 const ColorMatchMaster = () => {
@@ -9,7 +10,7 @@ const ColorMatchMaster = () => {
   const [bestScore, setBestScore] = useState(0);
   const [sequence, setSequence] = useState([]);
   const [userSequence, setUserSequence] = useState([]);
-
+  const [audioMap, setAudioMap] = useState({});
   const [gameOver, setGameOver] = useState(false);
   const [sequencePlaying, setSequencePlaying] = useState(false);
 
@@ -27,13 +28,17 @@ const ColorMatchMaster = () => {
   const colors = colors_config.slice(0, gridSize * gridSize);
 
   useEffect(() => {
-    const init = () => {
-      colors.forEach((color) => {
-        const audio = new Audio(Audios[color]);
-        audio.load();
-      });
-    }
-    init()
+    const loadAudios = async () => {
+      const loadedAudios = {};
+      for (const [key, audioSrc] of Object.entries(AudioFiles)) {
+        const audio = new Audio(audioSrc);
+        audio.preload = 'auto';
+        loadedAudios[key] = audio;
+      }
+      setAudioMap(loadedAudios);
+    };
+
+    loadAudios();
   }, []);
 
   useEffect(() => {
@@ -44,6 +49,15 @@ const ColorMatchMaster = () => {
       handlePlaySequence(seq, 1200);
     }
   }, [isPlaying]);
+
+  const playAudio = (key) => {
+    if (audioMap[key]) {
+      console.log('url', audioMap[key])
+      audioMap[key].play().catch(error => console.error(`Error playing ${key} audio:`, error));
+    } else {
+      console.error(`Audio for ${key} not found.`);
+    }
+  };
 
   const generateSequence = (colors, level, isNewStart) => {
     let newSequence = [];
@@ -60,8 +74,7 @@ const ColorMatchMaster = () => {
           const element = document.getElementById(item);
           element.style.opacity = ".4";
           console.log(item, 'on');
-          const audio = new Audio(Audios[item]);
-          audio.play();
+          playAudio(item);
           setTimeout(() => {
             element.style.opacity = "1";
           console.log(item, 'offf');
@@ -85,9 +98,7 @@ const ColorMatchMaster = () => {
   }
 
   const handleOnBoxClick = (color) => {
-    const audio = new Audio(Audios[color]);
-    audio.play();
-  
+    playAudio(color);
     const newUserSequence = [...userSequence, color];
   
     if (sequence[userSequence.length] !== color) {
@@ -207,6 +218,21 @@ const ColorMatchMaster = () => {
           </button>
         </div>
       )}
+      <div className="bg" style={{
+        position: 'absolute',
+        top: '0',
+        zIndex: '-1',
+        opacity: '.5',
+        width: '100%',
+        height: '500px',
+        overflow: 'hidden',
+        borderRadius: '.5rem'
+      }}>
+        <img src={Images.bgImg} alt="bg" style={{
+          objectFit: 'cover',
+          width: '100%'
+        }} />
+      </div>
     </div>
   );
 };
