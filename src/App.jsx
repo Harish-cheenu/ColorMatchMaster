@@ -3,7 +3,7 @@ import ColorMatchMaster from "./components/ColorMatchMaster";
 
 import "./App.css";
 
-const App = ({ isSignedIn = true }) => {
+const App = ({ isSignedIn = import.meta.env.VITE_USER_LOGGEDIN }) => {
   const [countdown, setCountdown] = useState(5);
 
   useEffect(() => {
